@@ -1,0 +1,24 @@
+<meta charset="utf-8">
+<title>CanHaz Article?</title>
+<style>
+body { font-family: sans-serif; }
+#links a { margin-bottom: 20px; display: none; }
+#bookmarklet { display: none; }
+</style>
+
+<!-- elements -->
+<div id="links">
+	<a id="google-scholar" title="Find in Google Scholar" target="_scholar"><img src="scholar.png"></a>
+
+	<a href="https://twitter.com/share?button_hashtag=icanhazpdf" id="twitter-share-button" class="twitter-hashtag-button" data-size="large" data-lang="en" data-dnt="true">Tweet</a>
+</div>
+
+<div id="bookmarklet">
+	Bookmarklet:
+
+	<a href="javascript:document.getElementsByTagName('body')[0].appendChild(document.createElement('script')).setAttribute('src','{PATH}bookmarklet.js')">CanHazArticle?</a>
+</div>
+
+<!-- scripts -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="find.js"></script>
