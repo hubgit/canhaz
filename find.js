@@ -1,4 +1,6 @@
 var app = new function() {
+  var tweetButton = $('#twitter-share-button');
+
   this.init = function() {
     var params = readParams();
 
@@ -8,9 +10,10 @@ var app = new function() {
     }
 
     if (params.url) {
-      $('#twitter-share-button').attr('data-url', params.url);
+      tweetButton.attr('data-url', params.url);
 
       if (!params.doi) {
+        showScholarLink(params.url);
         showTweetButton();
       }
     }
@@ -25,9 +28,8 @@ var app = new function() {
 
   var readParams = function() {
     var params = {};
-    var parts = window.location.search.substr(1).split('&');
 
-    $.each(parts, function() {
+    $.each(window.location.search.substr(1).split('&'), function() {
       var parts = this.split('=');
       var key = decodeURIComponent(parts[0]);
       var value = decodeURIComponent(parts[1]);
@@ -70,11 +72,9 @@ var app = new function() {
     if (response.feed.entry) {
       var meta = parseCrossRef(response.feed.entry);
 
-      $('#google-scholar')
-        .attr('href', 'http://scholar.google.com/scholar?cluster=' + meta.url)
-        .css("display", "block");
+      showScholarLink(meta.url);
 
-      $('#twitter-share-button')
+      tweetButton
         .attr('data-text', meta.title)
         .attr('data-url', meta.url);
     }
@@ -83,11 +83,17 @@ var app = new function() {
   };
 
   var showTweetButton = function() {
-    $('#twitter-share-button').show();
+    tweetButton.show();
 
     var script = document.createElement('script');
     script.setAttribute('src', 'https://platform.twitter.com/widgets.js');
     document.body.appendChild(script);
+  };
+
+  var showScholarLink = function(url) {
+    $('#google-scholar')
+      .attr('href', 'http://scholar.google.com/scholar?cluster=' + url)
+      .css("display", "block");
   };
 
   var parseCrossRef = function(entry) {
