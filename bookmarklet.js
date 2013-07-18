@@ -54,7 +54,7 @@
   var url = base + "?url=" + encodeURIComponent(window.location);
   var doi = detectDOI();
   if (doi) {
-    url += "&doi=" + encodeURIComponent(doi);
+    url += "&doi=" + encodeURIComponent(doi.replace(/\.$/, ""));
   }
 
   // add the iframe
