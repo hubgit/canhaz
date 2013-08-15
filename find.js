@@ -64,19 +64,20 @@ var app = new function() {
   var fetchCrossRef = function(doi) {
     return $.ajax({
         url: 'http://data.crossref.org/' + encodeURIComponent(doi),
+        headers: { 
+          Accept: "application/vnd.citationstyles.csl+json",
+        },
         dataType: 'json',
     });
   };
 
   var handleCrossRef = function(response) {
-    if (response.feed.entry) {
-      var meta = parseCrossRef(response.feed.entry);
-
-      showScholarLink(meta.url);
+    if (response && response.URL) {
+      showScholarLink(response.URL);
 
       tweetButton
-        .attr('data-text', meta.title)
-        .attr('data-url', meta.url);
+        .attr('data-text', response.title)
+        .attr('data-url', response.URL);
     }
 
     showTweetButton();
@@ -94,37 +95,6 @@ var app = new function() {
     $('#google-scholar')
       .attr('href', 'http://scholar.google.com/scholar?cluster=' + url)
       .css("display", "block");
-  };
-
-  var parseCrossRef = function(entry) {
-    var meta = {};
-    var item = entry['pam:message']['pam:article'];
-
-    if (item['prism:url']) {
-      meta.url = item['prism:url'];
-    }
-
-    if (item['dc:title']) {
-      meta.title = item['dc:title'].replace(/\s+/, ' ');
-    }
-
-    if (item['dc:creator']) {
-      if (!$.isArray(item['dc:creator'])) {
-        item['dc:creator'] = [item['dc:creator']];
-      }
-
-      meta.creator = item['dc:creator'].join(', ');
-    }
-
-    if (item['prism:publicationName']) {
-      meta.publication = item['prism:publicationName'];
-    }
-
-    if (item['prism:publicationDate']) {
-      meta.date = item['prism:publicationDate'];
-    }
-
-    return meta;
   };
 
   var updateBookmarklet = function() {
