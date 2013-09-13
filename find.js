@@ -94,7 +94,8 @@ var app = new function() {
   var showScholarLink = function(url) {
     $('#google-scholar')
       .attr('href', 'http://scholar.google.com/scholar?cluster=' + url)
-      .css("display", "block");
+      .css("display", "block")
+      .click();
   };
 
   var updateBookmarklet = function() {
